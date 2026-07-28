@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<title>လစဉ်အသုံးစရိတ် စာရင်း</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Myanmar:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;500;600&display=swap');
+
+:root{
+  --paper: #F2EDE1;
+  --paper-line: #C9BFA8;
+  --ink: #1F2937;
+  --ink-soft: #5B5346;
+  --red: #B33A3A;
+  --green: #3F6E52;
+  --gold: #A6772C;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px);
+  background-size: 100% 42px;
+  font-family:'Noto Sans Myanmar', sans-serif;
+  color:var(--ink);
+  padding:24px 16px 60px;
+}
+
+.book{
+  max-width:880px;
+  margin:0 auto;
+  background: rgba(255,253,247,0.55);
+  border:1px solid var(--paper-line);
+  box-shadow: 0 2px 0 var(--paper-line), 0 18px 40px rgba(31,41,55,0.08);
+  padding: 32px 28px 24px;
+  position:relative;
+}
+
+.book::before{
+  content:"";
+  position:absolute;
+  left:54px; top:0; bottom:0;
+  width:2px;
+  background: repeating-linear-gradient(180deg, var(--red) 0 4px, transparent 4px 10px);
+  opacity:0.45;
+}
+
+header{
+  text-align:center;
+  margin-bottom:28px;
+  padding-left:34px;
+}
+header .eyebrow{
+  font-size:13px;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+h1{
+  font-family:'Noto Serif Myanmar', serif;
+  font-size:32px;
+  margin:6px 0 4px;
+  font-weight:700;
+}
+header .sub{
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+.section-title{
+  font-family:'Noto Serif Myanmar', serif;
+  font-size:18px;
+  font-weight:600;
+  margin: 26px 0 12px 34px;
+  border-bottom:1px solid var(--paper-line);
+  padding-bottom:6px;
+}
+
+.income-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-left:34px;
+  flex-wrap:wrap;
+}
+.income-row label{ font-size:14px; color:var(--ink-soft); }
+.income-row input{
+  font-family:'Noto Sans Myanmar', sans-serif;
+  font-size:16px;
+  padding:8px 10px;
+  border:none;
+  border-bottom:2px solid var(--ink);
+  background:transparent;
+  width:180px;
+  color:var(--ink);
+}
+.income-row input:focus{ outline:none; border-color:var(--gold); }
+
+.form-row{
+  display:grid;
+  grid-template-columns: 1.4fr 1fr 1fr auto;
+  gap:10px;
+  margin: 0 34px 20px;
+}
+.form-row input, .form-row select{
+  font-family:'Noto Sans Myanmar', sans-serif;
+  font-size:14px;
+  padding:9px 10px;
+  border:1px solid var(--paper-line);
+  background:#fffdf7;
+  color:var(--ink);
+  border-radius:2px;
+}
+.form-row button{
+  font-family:'Noto Sans Myanmar', sans-serif;
+  font-weight:600;
+  font-size:14px;
+  background:var(--ink);
+  color:var(--paper);
+  border:none;
+  padding:9px 18px;
+  cursor:pointer;
+  border-radius:2px;
+  transition: background .15s ease;
+}
+.form-row button:hover{ background:var(--red); }
+
+table{
+  width:calc(100% - 34px);
+  margin-left:34px;
+  border-collapse:collapse;
+  font-size:14px;
+}
+thead th{
+  text-align:left;
+  font-weight:600;
+  color:var(--ink-soft);
+  border-bottom:1px solid var(--ink);
+  padding:8px 6px;
+  font-size:13px;
+}
+tbody td{
+  padding:9px 6px;
+  border-bottom:1px dashed var(--paper-line);
+}
+tbody tr:hover{ background: rgba(166,119,44,0.06); }
+.amount-cell{ text-align:right; font-variant-numeric: tabular-nums; }
+.del-btn{
+  background:none; border:none; color:var(--red);
+  cursor:pointer; font-size:13px; text-decoration:underline;
+  font-family:'Noto Sans Myanmar', sans-serif;
+}
+.empty-note{
+  margin: 12px 0 12px 34px;
+  color:var(--ink-soft);
+  font-size:14px;
+  font-style:italic;
+}
+
+.summary{
+  margin: 30px 34px 10px;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16px;
+}
+.stat{
+  border:1px solid var(--paper-line);
+  background:#fffdf7;
+  padding:14px 16px;
+}
+.stat .label{ font-size:12px; color:var(--ink-soft); letter-spacing:1px; }
+.stat .value{ font-family:'Noto Serif Myanmar', serif; font-size:22px; font-weight:700; margin-top:4px; }
+.stat.income .value{ color:var(--green); }
+.stat.expense .value{ color:var(--red); }
+
+.stamp{
+  margin: 22px 34px 6px;
+  display:inline-block;
+  border:3px solid var(--red);
+  color:var(--red);
+  padding:10px 22px;
+  font-family:'Noto Serif Myanmar', serif;
+  font-weight:700;
+  font-size:18px;
+  border-radius:6px;
+  transform: rotate(-3deg);
+}
+.stamp.ok{ border-color:var(--green); color:var(--green); }
+
+.breakdown{
+  margin: 30px 34px 0;
+}
+.bar-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:9px;
+  font-size:13px;
+}
+.bar-row .cat-name{ width:110px; flex-shrink:0; color:var(--ink-soft); }
+.bar-track{
+  flex:1;
+  background:rgba(201,191,168,0.4);
+  height:12px;
+  position:relative;
+  border-radius:2px;
+  overflow:hidden;
+}
+.bar-fill{
+  height:100%;
+  background: var(--gold);
+  border-radius:2px;
+}
+.bar-row .cat-amount{ width:110px; text-align:right; flex-shrink:0; font-variant-numeric: tabular-nums; }
+
+footer{
+  text-align:center;
+  margin-top:36px;
+  font-size:12px;
+  color:var(--ink-soft);
+}
+
+@media (max-width:640px){
+  .form-row{ grid-template-columns: 1fr 1fr; }
+  .form-row button{ grid-column: span 2; }
+  .summary{ grid-template-columns: 1fr; }
+  .book::before{ left:20px; }
+  header,.section-title,.income-row,.form-row,table,.summary,.stamp,.breakdown{ margin-left:6px; padding-left:0; }
+}
+</style>
+</head>
+<body>
+
+<div class="book">
+  <header>
+    <div class="eyebrow">Personal Ledger</div>
+    <h1>လစဉ် အသုံးစရိတ် စာရင်း</h1>
+    <div class="sub">ဝင်ငွေနှင့် ထွက်ငွေများကို မှတ်တမ်းတင်ပါ</div>
+  </header>
+
+  <div class="section-title">လစဉ် ဝင်ငွေ</div>
+  <div class="income-row">
+    <label>ဝင်ငွေ (ကျပ်)</label>
+    <input type="number" id="incomeInput" placeholder="ဥပမာ 800000" min="0">
+    <button id="saveIncomeBtn" style="background:var(--ink);color:var(--paper);border:none;padding:8px 16px;border-radius:2px;cursor:pointer;font-family:'Noto Sans Myanmar',sans-serif;">သိမ်းမည်</button>
+  </div>
+
+  <div class="section-title">အသုံးစရိတ် ထည့်ရန်</div>
+  <div class="form-row">
+    <input type="text" id="descInput" placeholder="ဖော်ပြချက် (ဥပမာ - နေ့လယ်စာ)">
+    <select id="catInput">
+      <option value="အစားအသောက်">အစားအသောက်</option>
+      <option value="အိမ်ငှား">အိမ်ငှား</option>
+      <option value="သွားလာရေး">သွားလာရေး</option>
+      <option value="ဖုန်း/အင်တာနက်">ဖုန်း/အင်တာနက်</option>
+      <option value="ဖျော်ဖြေရေး">ဖျော်ဖြေရေး</option>
+      <option value="ကျန်းမာရေး">ကျန်းမာရေး</option>
+      <option value="ပညာရေး">ပညာရေး</option>
+      <option value="အခြား">အခြား</option>
+    </select>
+    <input type="number" id="amountInput" placeholder="ငွေပမာဏ" min="0">
+    <button id="addBtn">ထည့်မည်</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ဖော်ပြချက်</th>
+        <th>အမျိုးအစား</th>
+        <th style="text-align:right;">ပမာဏ (ကျပ်)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="expenseBody"></tbody>
+  </table>
+  <div class="empty-note" id="emptyNote">မှတ်တမ်းများ မရှိသေးပါ။ ပထမဆုံး အသုံးစရိတ်ကို ထည့်ကြည့်ပါ။</div>
+
+  <div class="summary">
+    <div class="stat income">
+      <div class="label">စုစုပေါင်း ဝင်ငွေ</div>
+      <div class="value" id="incomeTotal">0 ကျပ်</div>
+    </div>
+    <div class="stat expense">
+      <div class="label">စုစုပေါင်း အသုံးစရိတ်</div>
+      <div class="value" id="expenseTotal">0 ကျပ်</div>
+    </div>
+    <div class="stat">
+      <div class="label">လက်ကျန်ငွေ</div>
+      <div class="value" id="balanceTotal">0 ကျပ်</div>
+    </div>
+  </div>
+
+  <div id="stampWrap"></div>
+
+  <div class="breakdown" id="breakdownWrap">
+    <div class="section-title" style="margin-left:0;">အမျိုးအစားအလိုက် ခွဲခြမ်းစိတ်ဖြာချက်</div>
+    <div id="breakdownBars"></div>
+  </div>
+
+  <footer>ဒေတာများကို သင့် browser တွင် သိမ်းဆည်းထားပါသည်</footer>
+</div>
+
+<script>
+let income = 0;
+let expenses = [];
+
+function fmt(n){
+  return Math.round(n).toLocaleString('en-US') + ' ကျပ်';
+}
+
+async function loadData(){
+  try{
+    const r = await window.storage.get('income');
+    income = r ? parseFloat(r.value) : 0;
+  }catch(e){ income = 0; }
+  document.getElementById('incomeInput').value = income || '';
+
+  try{
+    const r = await window.storage.get('expenses');
+    expenses = r ? JSON.parse(r.value) : [];
+  }catch(e){ expenses = []; }
+
+  render();
+}
+
+async function saveIncome(){
+  const val = parseFloat(document.getElementById('incomeInput').value) || 0;
+  income = val;
+  try{ await window.storage.set('income', String(val)); }catch(e){}
+  render();
+}
+
+async function saveExpenses(){
+  try{ await window.storage.set('expenses', JSON.stringify(expenses)); }catch(e){}
+}
+
+function addExpense(){
+  const desc = document.getElementById('descInput').value.trim();
+  const cat = document.getElementById('catInput').value;
+  const amount = parseFloat(document.getElementById('amountInput').value);
+
+  if(!desc || !amount || amount <= 0){
+    alert('ဖော်ပြချက်နှင့် ငွေပမာဏကို မှန်ကန်စွာ ဖြည့်ပါ');
+    return;
+  }
+
+  expenses.push({ id: Date.now(), desc, cat, amount });
+  document.getElementById('descInput').value = '';
+  document.getElementById('amountInput').value = '';
+  saveExpenses();
+  render();
+}
+
+function deleteExpense(id){
+  expenses = expenses.filter(e => e.id !== id);
+  saveExpenses();
+  render();
+}
+
+function render(){
+  const body = document.getElementById('expenseBody');
+  const emptyNote = document.getElementById('emptyNote');
+  body.innerHTML = '';
+
+  if(expenses.length === 0){
+    emptyNote.style.display = 'block';
+  } else {
+    emptyNote.style.display = 'none';
+    expenses.slice().reverse().forEach(e => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(e.desc)}</td>
+        <td>${escapeHtml(e.cat)}</td>
+        <td class="amount-cell">${Math.round(e.amount).toLocaleString('en-US')}</td>
+        <td><button class="del-btn" onclick="deleteExpense(${e.id})">ဖျက်မည်</button></td>
+      `;
+      body.appendChild(tr);
+    });
+  }
+
+  const totalExpense = expenses.reduce((s,e) => s + e.amount, 0);
+  const balance = income - totalExpense;
+
+  document.getElementById('incomeTotal').textContent = fmt(income);
+  document.getElementById('expenseTotal').textContent = fmt(totalExpense);
+  document.getElementById('balanceTotal').textContent = fmt(balance);
+  document.getElementById('balanceTotal').style.color = balance >= 0 ? 'var(--green)' : 'var(--red)';
+
+  const stampWrap = document.getElementById('stampWrap');
+  if(income > 0 || totalExpense > 0){
+    if(balance >= 0){
+      stampWrap.innerHTML = `<div class="stamp ok">ပိုနေသည် — ${fmt(balance)}</div>`;
+    } else {
+      stampWrap.innerHTML = `<div class="stamp">လိုနေသည် — ${fmt(Math.abs(balance))}</div>`;
+    }
+  } else {
+    stampWrap.innerHTML = '';
+  }
+
+  renderBreakdown(totalExpense);
+}
+
+function renderBreakdown(totalExpense){
+  const wrap = document.getElementById('breakdownWrap');
+  const bars = document.getElementById('breakdownBars');
+  bars.innerHTML = '';
+
+  if(expenses.length === 0){
+    wrap.style.display = 'none';
+    return;
+  }
+  wrap.style.display = 'block';
+
+  const byCat = {};
+  expenses.forEach(e => { byCat[e.cat] = (byCat[e.cat] || 0) + e.amount; });
+
+  const sorted = Object.entries(byCat).sort((a,b) => b[1]-a[1]);
+  const max = sorted[0][1];
+
+  sorted.forEach(([cat, amt]) => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="cat-name">${escapeHtml(cat)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(amt/max*100).toFixed(1)}%"></div></div>
+      <div class="cat-amount">${Math.round(amt).toLocaleString('en-US')}</div>
+    `;
+    bars.appendChild(row);
+  });
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('saveIncomeBtn').addEventListener('click', saveIncome);
+document.getElementById('addBtn').addEventListener('click', addExpense);
+document.getElementById('amountInput').addEventListener('keydown', e => { if(e.key === 'Enter') addExpense(); });
+document.getElementById('incomeInput').addEventListener('keydown', e => { if(e.key === 'Enter') saveIncome(); });
+
+loadData();
+</script>
+
+</body>
+</html>
